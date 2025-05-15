@@ -1,0 +1,57 @@
+# Brief: Builds current database from upstream at https://github.com/jshttp/mime-db
+# Note: Must be run on default branch
+
+name: Build
+
+on:
+  workflow_dispatch: # Enables manual triggering
+  schedule: # Enables scheduled triggerring. Max frequency allowed by GitHub is, trigger every 5 mins
+    - cron: '30 * * * *' # Trigger at 30th min of every hour
+    # Not starting at the start of every hour, as recommended by GitHub, to avoid delay
+    # Ref: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
+
+concurrency:
+  group: ${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+
+  build:
+    
+    permissions:
+      contents: write
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          check-latest: false
+      - name: Add current directory to system path
+        run: echo "${PWD}" >> "${GITHUB_PATH}"
+      - name: Fetch latest upstream release
+        id: release
+        run: echo "UPSTREAM_LATEST_RELEASE=$(latest.js)" >> "${GITHUB_OUTPUT}"
+      - name: Fail if latest upstream release is not in our tags
+        id: up-to-date
+        continue-on-error: true
+        run: git ls-remote --tags --exit-code origin ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
+      - name: Fetch and build DB
+        id: fetch-build
+        if: steps.up-to-date.outcome == 'failure'
+        run: build.js ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
+      - name: Commit the build
+        if: steps.fetch-build.outcome == 'success'
+        env:
+          RELEASE: ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
+        run: |
+          git config --global user.name ${{ github.triggering_actor }}
+          git config --global user.email '73181168+SomajitDey@users.noreply.github.com'
+          git checkout --orphan=database
+          git add .
+          git commit -m "Equivalent to jshttp/mime-db@${RELEASE}"
+          git tag "${RELEASE}"
+          git push --force --tags origin database
+        
