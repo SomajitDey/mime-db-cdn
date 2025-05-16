@@ -47,13 +47,13 @@ For example, to download the MIME-type for `image/jpeg` from [mime-db release v1
 
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@v1.54.0/mime-types/image/jpeg/data.json
 
-To get the MIME-type corresponding to `.mjs`, use CDN:
+To get the MIME-type corresponding to `.jpg`, use CDN:
 
-https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@v1.54.0/extensions/type.mjs
+https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@v1.54.0/extensions/type.jpg
 
 or download as text using:
 
-https://raw.githubusercontents.com/somajitdey/mime-db-cdn/database/extensions/type.mjs
+https://raw.githubusercontents.com/somajitdey/mime-db-cdn/v1.54.0/extensions/type.jpg
 
 ## Reliability of this database
 The upstream [mime-db](https://github.com/jshttp/mime-db) is [checked hourly for updates](https://github.com/SomajitDey/mime-db-cdn/actions). If a new release is available upstream, [this database](https://github.com/SomajitDey/mime-db-cdn/tree/database) is built afresh from that release and a new [git-tag](https://github.com/SomajitDey/mime-db-cdn/tags) is released with the same name as the [latest mime-db release](https://github.com/jshttp/mime-db/releases).
