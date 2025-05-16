@@ -7,5 +7,9 @@
     "lint": "semistandard --fix",
     "build": "./clean.sh > /dev/null; ./build.js",
     "clean": "./clean.sh"
+  },
+  "dependencies": {
+    "stream-chain": "^3.4.0",
+    "stream-json": "^1.9.1"
   }
 }

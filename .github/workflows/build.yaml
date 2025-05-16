@@ -29,6 +29,11 @@ jobs:
         with:
           node-version: '20.x'
           check-latest: false
+          cache: npm
+      - name: Install dependencies
+        env:
+          NODE_ENV: production # Not to install dev-dependencies
+        run: npm ci # Clean, frozen install. Doesn't modify package.json or package-lock.json
       - name: Add current directory to system path
         run: echo "${PWD}" >> "${GITHUB_PATH}"
       - name: Fetch latest upstream release
