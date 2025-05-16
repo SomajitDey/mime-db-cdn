@@ -30,7 +30,7 @@ replace `<extension>` with your chosen extension e.g. `jpg`.
 
 👉 The `Content-Type` header from the CDN's http-response might contain the desired MIME-type, as provided by the CDN provider.
 
-👉 However, we recommend using the textual data contained within the http-response's body, since it is taken from the [mime-db](https://github.com/jshttp/mime-db). For extensions shared by multiple MIME-types, only one MIME-type is returned.
+👉 However, we recommend using the textual data contained within the http-response's body, since it is taken from the [mime-db](https://github.com/jshttp/mime-db). For extensions shared by multiple MIME-types, one MIME-type is listed per line.
 
 👉 To download the data with `Content-Type: text/plain` http-response-header use:
 
