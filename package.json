@@ -5,7 +5,7 @@
   },
   "scripts": {
     "lint": "semistandard --fix",
-    "build": "./clean.sh &>/dev/null; ./build.js",
+    "build": "./clean.sh > /dev/null; ./build.js",
     "clean": "./clean.sh"
   }
 }

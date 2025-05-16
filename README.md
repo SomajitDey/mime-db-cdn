@@ -21,7 +21,7 @@ https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@database/mime-types/<mime-typ
 ```
 replace `<mime-type>` with your chosen MIME-type e.g. `image/jpeg`.
 
-### File-extension to MIME-type(s)
+### File-extension to MIME-type
 Download from CDN:
 ```
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@database/extensions/type.<extension>
@@ -30,7 +30,7 @@ replace `<extension>` with your chosen extension e.g. `jpg`.
 
 👉 The `Content-Type` header from the CDN's http-response might contain the desired MIME-type, as provided by the CDN provider.
 
-👉 However, we recommend using the textual data contained within the response's body, formatted as one MIME-type per line, as it is taken from the [mime-db](https://github.com/jshttp/mime-db).
+👉 However, we recommend using the textual data contained within the http-response's body, since it is taken from the [mime-db](https://github.com/jshttp/mime-db). For extensions shared by multiple MIME-types, only one MIME-type is returned.
 
 👉 To download the data with `Content-Type: text/plain` http-response-header use:
 
@@ -50,6 +50,10 @@ https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@v1.54.0/mime-types/image/jpeg
 To get the MIME-type corresponding to `.mjs`, use CDN:
 
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@v1.54.0/extensions/type.mjs
+
+or download as text using:
+
+https://raw.githubusercontents.com/somajitdey/mime-db-cdn/database/extensions/type.mjs
 
 ## Reliability of this database
 The upstream [mime-db](https://github.com/jshttp/mime-db) is [checked hourly for updates](https://github.com/SomajitDey/mime-db-cdn/actions). If a new release is available upstream, [this database](https://github.com/SomajitDey/mime-db-cdn/tree/database) is built afresh from that release and a new [git-tag](https://github.com/SomajitDey/mime-db-cdn/tags) is released with the same name as the [latest mime-db release](https://github.com/jshttp/mime-db/releases).
