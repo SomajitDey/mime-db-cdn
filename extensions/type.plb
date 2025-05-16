@@ -1,0 +1,1 @@
+application/vnd.3gpp.pic-bw-large
