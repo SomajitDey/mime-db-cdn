@@ -24,8 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Check out our main branch containing the necessary build scripts
+        uses: actions/checkout@v4
+      - name: Set up Node runtime
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           check-latest: false
@@ -34,29 +36,35 @@ jobs:
         env:
           NODE_ENV: production # Not to install dev-dependencies
         run: npm ci # Clean, frozen install. Doesn't modify package.json or package-lock.json
-      - name: Add current directory to system path
-        run: echo "${PWD}" >> "${GITHUB_PATH}"
-      - name: Fetch latest upstream release
+      - name: Add scripts directory to system path
+        run: echo "${PWD}/scripts" >> "${GITHUB_PATH}"
+      - name: Fetch latest mime-db release from GitHub
         id: release
-        run: echo "UPSTREAM_LATEST_RELEASE=$(latest.js)" >> "${GITHUB_OUTPUT}"
-      - name: Fail if latest upstream release is not in our tags
+        run: echo "MIMEDB_RELEASE=$(latest-mime-db-version-github.js)" >> "${GITHUB_OUTPUT}"
+      - name: Check if up-to-date. Fail, if not.
         id: up-to-date
         continue-on-error: true
-        run: git ls-remote --tags --exit-code origin ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
-      - name: Fetch and build DB
-        id: fetch-build
-        if: steps.up-to-date.outcome == 'failure'
-        run: build.js ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
-      - name: Commit the build
-        if: steps.fetch-build.outcome == 'success'
-        env:
-          RELEASE: ${{ steps.release.outputs.UPSTREAM_LATEST_RELEASE }}
         run: |
+          # Get current version from package.json and augment with the current mime-db release
+          release="$(get-version.sh)-${{ steps.release.outputs.MIMEDB_RELEASE }}"
+          # Check if we have already pushed/released that version yet
+          git ls-remote --tags --exit-code origin "${release}"
+      - name: Fetch and build DB
+        id: build-db
+        if: steps.up-to-date.outcome == 'failure'
+        run: npm run build ${{ steps.release.outputs.MIMEDB_RELEASE }}
+      - name: Commit the build
+        if: steps.build-db.outcome == 'success'
+        env:
+          MIMEDB_RELEASE: ${{ steps.release.outputs.MIMEDB_RELEASE }}
+        run: |
+          # Get current version from package.json and augment with the current mime-db release
+          release="$(get-version.sh)-${MIMEDB_RELEASE}"
+          set-version.sh "${release}" # Update package.json with the augmented version
           git config --global user.name ${{ github.triggering_actor }}
           git config --global user.email '73181168+SomajitDey@users.noreply.github.com'
           git checkout --orphan=database
           git add .
-          git commit -m "Equivalent to jshttp/mime-db@${RELEASE}"
-          git tag "${RELEASE}"
+          git commit -m "Equivalent to jshttp/mime-db@${MIMEDB_RELEASE}"
+          git tag "${release}"
           git push --force --tags origin database
-        

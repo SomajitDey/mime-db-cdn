@@ -5,11 +5,14 @@
   },
   "scripts": {
     "lint": "semistandard --fix",
-    "build": "./clean.sh > /dev/null; ./build.js",
-    "clean": "./clean.sh"
+    "build": "scripts/remove-db.sh > /dev/null; scripts/build-db.js",
+    "clean": "scripts/remove-db.sh",
+    "bump": "scripts/set-version.sh",
+    "semver": "scripts/get-version.sh"
   },
   "dependencies": {
     "stream-chain": "^3.4.0",
     "stream-json": "^1.9.1"
-  }
+  },
+  "version": "0.1.0"
 }

@@ -8,4 +8,4 @@ const latest = await fetch(url)
     throw new Error('Failed to fetch latest release for https://github.com/jshttp/mime-db');
   })
   .then((obj) => obj.tag_name);
-console.log(latest);
+console.log(latest.startsWith('v') ? latest.substring(1) : latest);
