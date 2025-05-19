@@ -1,0 +1,28 @@
+# Brief: Tests the API in the database branch
+
+name: Test
+
+on:
+  push:
+    branches:
+      - database
+  workflow_dispatch: # Enables manual triggering
+
+jobs:
+
+  test:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out database branch
+        uses: actions/checkout@v4
+        with:
+          ref: database
+      - name: Set up Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          check-latest: false
+      - name: Run tests
+        run: npm test
