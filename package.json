@@ -1,4 +1,7 @@
 {
+  "name": "mime-db-cdn",
+  "description": "CDN compatible version of mime-db",
+  "repository": "SomajitDey/mime-db-cdn",
   "type": "module",
   "devDependencies": {
     "semistandard": "^17.0.0"
@@ -14,5 +17,13 @@
     "stream-chain": "^3.4.0",
     "stream-json": "^1.9.1"
   },
-  "version": "1.0.0"
+  "version": "1.1.0",
+  "files": [
+    "README.md",
+    "LICENSE",
+    "index.js",
+    "mime-types",
+    "file-types",
+    "extensions"
+  ]
 }

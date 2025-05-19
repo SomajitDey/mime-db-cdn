@@ -24,7 +24,7 @@ await fetch(cdnLink)
 // Brief: Save MIME-type data at ./mime-types/<MIME-type>/data.json
 async function saveMimeData (mimeType, data = {}) {
   const dir = `./mime-types/${mimeType}`;
-  await mkdir(dir, { recursive: true }) // Create the directory if non-existing
+  await mkdir(dir, { recursive: true }); // Create the directory if non-existing
   await writeFile(`${dir}/data.json`, JSON.stringify(data));
 }
 
