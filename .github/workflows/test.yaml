@@ -3,9 +3,9 @@
 name: Test
 
 on:
-  push:
-    branches:
-      - database
+  workflow_run: # Run whenever the Build workflow completes
+    workflows: [Build]
+    types: [completed]
   workflow_dispatch: # Enables manual triggering
 
 jobs:

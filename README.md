@@ -1,3 +1,6 @@
+[![Build](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml)
+[![Test](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml)
+
 # 💁 mime-db-cdn
 CDN-compatible version of [mime-db](https://github.com/jshttp/mime-db).
 
