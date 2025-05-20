@@ -9,7 +9,7 @@ on:
       - main
   workflow_dispatch: # Enables manual triggering
   schedule: # Enables scheduled triggerring. Max frequency allowed by GitHub is, trigger every 5 mins
-    - cron: '30 * * * *' # Trigger at 30th min of every hour
+    - cron: '30 2 * * *' # Trigger at 2:30 am every day
     # Not starting at the start of every hour, as recommended by GitHub, to avoid delay
     # Ref: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
 

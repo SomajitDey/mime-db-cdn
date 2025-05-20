@@ -1,4 +1,4 @@
-import { mimeToExtensions, extensionToMime } from './index.js';
+import { mimeToExtensions, extensionToMimes } from './index.js';
 import { describe, test } from 'node:test';
 import assert from 'node:assert';
 
@@ -27,7 +27,7 @@ describe('Testing index.js', () => {
     );
   });
 
-  test('extensionToMime()', async () => {
+  test('extensionToMimes()', async () => {
     const mimeType = 'application/javascript';
     const args = [
       'dir/subdir/path.js',
@@ -38,17 +38,17 @@ describe('Testing index.js', () => {
     ];
     for (const arg of args) {
       assert.equal(
-        await extensionToMime(arg)
+        await extensionToMimes(arg)
           .then((mimeTypes) => mimeTypes.includes(mimeType)),
         true
       );
     }
   });
 
-  test('Error for extensionToMime()', async () => {
+  test('Error for extensionToMimes()', async () => {
     const fakeExtension = 'extension';
     assert.rejects(
-      extensionToMime(fakeExtension),
+      extensionToMimes(fakeExtension),
       { message: 'Not Found' }
     );
   });

@@ -22,7 +22,7 @@ export async function mimeToExtensions (mimeTypeSpec) {
 // Params: <String>, path | filename with extension | extension with or without the leading dot
 // Returns: <Array>
 // On error, rejects with message: 'Not Found'
-export async function extensionToMime (path) {
+export async function extensionToMimes (path) {
   const extension = path
     .split('/').pop() // Removed directory string
     .split('.').pop(); // Removed filename string
