@@ -29,9 +29,12 @@ jobs:
           node-version: '20.x'
           check-latest: false
           registry-url: 'https://registry.npmjs.org'
-      - name: Publish
-        # Only if not up-to-date
-        if: $(scripts/get-version.sh) != $(scripts/latest-version-npm.sh)
-        run: npm publish
+      - name: Publish # Only if not up-to-date
+        run: |
+          if [ $(scripts/get-version.sh) != $(scripts/latest-version-npm.sh) ]; then
+            npm publish
+          else
+            echo 'Up-to-date. Nothing new to publish.'
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
