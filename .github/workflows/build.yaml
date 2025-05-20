@@ -36,14 +36,12 @@ jobs:
           check-latest: false
           cache: npm
       - name: Install dependencies
-        env:
-          NODE_ENV: production # Not to install dev-dependencies
         run: npm ci # Clean, frozen install. Doesn't modify package.json or package-lock.json
       - name: Add scripts directory to system path
         run: echo "${PWD}/scripts" >> "${GITHUB_PATH}"
       - name: Fetch latest mime-db release from GitHub
         id: release
-        run: echo "MIMEDB_RELEASE=$(latest-mime-db-version-github.js)" >> "${GITHUB_OUTPUT}"
+        run: echo "MIMEDB_RELEASE=$(latest-version-github.js jshttp/mime-db)" >> "${GITHUB_OUTPUT}"
       - name: Check if up-to-date. Fail, if not.
         id: up-to-date
         continue-on-error: true

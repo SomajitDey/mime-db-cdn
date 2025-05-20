@@ -16,7 +16,7 @@ jobs:
     
     runs-on: ubuntu-latest
 
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: github.event.workflow_run.conclusion == 'success'
 
     steps:
       - name: Check out database branch
@@ -30,6 +30,8 @@ jobs:
           check-latest: false
           registry-url: 'https://registry.npmjs.org'
       - name: Publish
+        # Only if not up-to-date
+        if: $(scripts/get-version.sh) != $(scripts/latest-version-npm.sh)
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

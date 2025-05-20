@@ -2,6 +2,7 @@
 ![NPM Version](https://img.shields.io/npm/v/mime-db-cdn)
 [![Build](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml)
 [![Test](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml)
+[![Publish NPM package](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/publish.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/publish.yaml)
 
 CDN-compatible version of [mime-db](https://github.com/jshttp/mime-db).
 
