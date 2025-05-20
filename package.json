@@ -1,7 +1,11 @@
 {
   "name": "mime-db-cdn",
   "description": "CDN compatible version of mime-db",
-  "repository": "SomajitDey/mime-db-cdn",
+  "repository": "github:SomajitDey/mime-db-cdn",
+  "homepage": "https://github.com/SomajitDey/mime-db-cdn#-mime-db-cdn",
+  "author": "Somajit Dey (https://github.com/SomajitDey)",
+  "license": "MIT",
+  "funding": "https://buymeacoffee.com/somajitdey",
   "type": "module",
   "devDependencies": {
     "semistandard": "^17.0.0"
@@ -18,7 +22,7 @@
     "stream-chain": "^3.4.0",
     "stream-json": "^1.9.1"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "files": [
     "README.md",
     "LICENSE",
@@ -26,5 +30,10 @@
     "mime-types",
     "file-types",
     "extensions"
-  ]
+  ],
+  "exports": {
+    ".": "./index.js",
+    "./mime-types/*/*/data.json": "./mime-types/*/*/data.json",
+    "./extensions/*/data.json": "./extensions/*/data.json"
+  }
 }

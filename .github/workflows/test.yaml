@@ -1,4 +1,5 @@
 # Brief: Tests the API in the database branch
+# Note: Must be run on default branch
 
 name: Test
 
