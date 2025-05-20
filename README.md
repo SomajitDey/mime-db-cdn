@@ -48,7 +48,7 @@ Above, replace `<mime-type>` with your chosen MIME-type e.g. `image/jpeg`.
 
 👉 Apart from `extensions`, the JSON for a MIME-type also contains [these relevant data](https://github.com/jshttp/mime-db#data-structure).
 
-### File-extension to MIME-types
+### File-extension to MIME-type(s)
 Download as JSON:
 
 From jsdelivr,
@@ -84,24 +84,24 @@ The source `mime-db` release, from which our [database](https://github.com/Somaj
 
 Format: `<our version>-<source mime-db version>`
 
-For example, our version [2.0.2-1.54.0](https://github.com/SomajitDey/mime-db-cdn/releases/tag/2.0.2-1.54.0) is equivalent to the `mime-db` release [v1.54.0](https://github.com/jshttp/mime-db/releases/tag/v1.54.0).
+For example, our version [3.0.0-1.54.0](https://github.com/SomajitDey/mime-db-cdn/releases/tag/3.0.0-1.54.0) is equivalent to the `mime-db` release [v1.54.0](https://github.com/jshttp/mime-db/releases/tag/v1.54.0).
 
 ### Examples
 Just click on any of the links in this section.
 
 👉 Data for `image/jpeg` from [mime-db release v1.54.0](https://github.com/jshttp/mime-db/releases/tag/v1.54.0) =>
 
-https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@2.0.2-1.54.0/mime-types/image/jpeg/data.json
+https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@3.0.0-1.54.0/mime-types/image/jpeg/data.json
 
 👉 MIME-type(s) for file-extension `exe`=>
 
-https://unpkg.com/mime-db-cdn@2.0.2-1.54.0/extensions/exe/data.json
+https://unpkg.com/mime-db-cdn@3.0.0-1.54.0/extensions/exe/data.json
 
 👉 Proper `Content-Type` for file-extensions `json` and `png` =>
 
-https://unpkg.com/mime-db-cdn@2.0.2-1.54.0/file-types/type.json
+https://unpkg.com/mime-db-cdn@3.0.0-1.54.0/file-types/type.json
 
-https://unpkg.com/mime-db-cdn@2.0.2-1.54.0/file-types/type.png
+https://unpkg.com/mime-db-cdn@3.0.0-1.54.0/file-types/type.png
 
 ## JavaScript SDK
 
@@ -115,7 +115,7 @@ For server-side runtimes like Node, dynamically importing tiny JSONs avoids comp
 For browsers:
 ```html
 <script type="module">
-    import { mimeToExtensions, extensionToMimes } from 'https://unpkg.com/mime-db-cdn@2.0.2-1.54.0/index.js';
+    import { mimeToExtensions, extensionToMimes } from 'https://unpkg.com/mime-db-cdn@3.0.0-1.54.0/index.js';
 
     ...
 </script>
