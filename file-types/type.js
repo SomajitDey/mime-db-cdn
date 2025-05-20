@@ -1,0 +1,2 @@
+application/javascript
+text/javascript
