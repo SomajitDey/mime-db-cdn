@@ -1,0 +1,71 @@
+# Brief: Builds current database from upstream at https://github.com/jshttp/mime-db
+# Note: Must be run on default branch
+
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Enables manual triggering
+  schedule: # Enables scheduled triggerring. Max frequency allowed by GitHub is, trigger every 5 mins
+    - cron: '30 2 * * *' # Trigger at 2:30 am every day
+    # Not starting at the start of every hour, as recommended by GitHub, to avoid delay
+    # Ref: https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/events-that-trigger-workflows#schedule
+
+concurrency:
+  group: ${{ github.repository }}
+  cancel-in-progress: false
+
+jobs:
+
+  build:
+    
+    permissions:
+      contents: write
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Check out our main branch containing the necessary build scripts
+        uses: actions/checkout@v4
+      - name: Set up Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          check-latest: false
+          cache: npm
+      - name: Install dependencies
+        run: npm ci # Clean, frozen install. Doesn't modify package.json or package-lock.json
+      - name: Add scripts directory to system path
+        run: echo "${PWD}/scripts" >> "${GITHUB_PATH}"
+      - name: Fetch latest mime-db release from GitHub
+        id: release
+        run: echo "MIMEDB_RELEASE=$(latest-version-github.js jshttp/mime-db)" >> "${GITHUB_OUTPUT}"
+      - name: Check if up-to-date. Fail, if not.
+        id: up-to-date
+        continue-on-error: true
+        run: |
+          # Get current version from package.json and augment with the current mime-db release
+          release="$(get-version.sh)-${{ steps.release.outputs.MIMEDB_RELEASE }}"
+          # Check if we have already pushed/released that version yet
+          git ls-remote --tags --exit-code origin "${release}"
+      - name: Fetch and build DB
+        id: build-db
+        if: steps.up-to-date.outcome == 'failure'
+        run: npm run build ${{ steps.release.outputs.MIMEDB_RELEASE }}
+      - name: Commit the build
+        if: steps.build-db.outcome == 'success'
+        env:
+          MIMEDB_RELEASE: ${{ steps.release.outputs.MIMEDB_RELEASE }}
+        run: |
+          # Get current version from package.json and augment with the current mime-db release
+          release="$(get-version.sh)-${MIMEDB_RELEASE}"
+          set-version.sh "${release}" # Update package.json with the augmented version
+          git config --global user.name ${{ github.triggering_actor }}
+          git config --global user.email '73181168+SomajitDey@users.noreply.github.com'
+          git checkout --orphan=database
+          git add .
+          git commit -m "(v${release}) Automated commit by GitHub workflow"
+          git tag "${release}"
+          git push --force --tags origin database
