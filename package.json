@@ -1,6 +1,6 @@
 {
   "name": "mime-db-cdn",
-  "description": "CDN compatible version of mime-db",
+  "description": "A mime-db equivalent to serve data for each entry separately over CDN. Enables small, selective download for any given query.",
   "repository": "github:SomajitDey/mime-db-cdn",
   "homepage": "https://github.com/SomajitDey/mime-db-cdn#-mime-db-cdn",
   "author": "Somajit Dey (https://github.com/SomajitDey)",
@@ -35,7 +35,7 @@
     "semver": "scripts/get-version.sh",
     "test": "node test.js"
   },
-  "version": "3.0.1",
+  "version": "3.0.2",
   "files": [
     "README.md",
     "LICENSE",

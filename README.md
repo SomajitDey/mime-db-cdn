@@ -1,5 +1,5 @@
 # 💁 mime-db-cdn
-![NPM Version](https://img.shields.io/npm/v/mime-db-cdn)
+[![NPM Version](https://img.shields.io/npm/v/mime-db-cdn)](https://www.npmjs.com/package/mime-db-cdn)
 [![Build](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/build.yaml)
 [![Test](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/test.yaml)
 [![Publish NPM package](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/publish.yaml/badge.svg)](https://github.com/SomajitDey/mime-db-cdn/actions/workflows/publish.yaml)
@@ -39,6 +39,10 @@ From jsdelivr,
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@<ref>/mime-types/<mime-type>/data.json
 ```
 
+```
+https://cdn.jsdelivr.net/npm/mime-db-cdn@<tag>/mime-types/<mime-type>/data.json
+```
+
 From unpkg,
 ```
 https://unpkg.com/mime-db-cdn@<tag>/mime-types/<mime-type>/data.json
@@ -56,6 +60,10 @@ From jsdelivr,
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@<ref>/extensions/<extension>/data.json
 ```
 
+```
+https://cdn.jsdelivr.net/npm/mime-db-cdn@<tag>/extensions/<extension>/data.json
+```
+
 From unpkg,
 ```
 https://unpkg.com/mime-db-cdn@<tag>/extensions/<extension>/data.json
@@ -68,6 +76,10 @@ Above, replace `<extension>` with your chosen extension e.g. `jpg`.
 From jsdelivr,
 ```
 https://cdn.jsdelivr.net/gh/somajitdey/mime-db-cdn@<ref>/file-types/type.<extension>
+```
+
+```
+https://cdn.jsdelivr.net/npm/mime-db-cdn@<tag>/file-types/type.<extension>
 ```
 
 From unpkg,
@@ -115,9 +127,9 @@ For server-side runtimes like Node, dynamically importing tiny JSONs avoids comp
 For browsers:
 ```html
 <script type="module">
-    import { mimeToExtensions, extensionToMimes } from 'https://unpkg.com/mime-db-cdn@3.0.0-1.54.0/index.js';
+    import { mimeToExtensions, extensionToMimes } from 'https://cdn.jsdelivr.net/npm/mime-db-cdn@3.0.0-1.54.0/index.min.js';
 
-    ...
+    // Your code here ...
 </script>
 ```
 
