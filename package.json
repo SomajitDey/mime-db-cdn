@@ -23,6 +23,7 @@
   ],
   "type": "module",
   "devDependencies": {
+    "mime-types": "^3.0.1",
     "semistandard": "^17.0.0",
     "stream-chain": "^3.4.0",
     "stream-json": "^1.9.1"
@@ -35,7 +36,7 @@
     "semver": "scripts/get-version.sh",
     "test": "node test.js"
   },
-  "version": "3.0.2",
+  "version": "4.0.0",
   "files": [
     "README.md",
     "LICENSE",

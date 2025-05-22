@@ -9,6 +9,7 @@ import { createReadStream } from 'node:fs';
 import StreamObject from 'stream-json/streamers/StreamObject.js';
 import StreamJSON from 'stream-json';
 import chain from 'stream-chain';
+import mimeScore from 'mime-types/mimeScore.js';
 const { parser } = StreamJSON;
 const { streamObject } = StreamObject;
 
@@ -43,20 +44,45 @@ async function saveExtToMime (mimeType, extensions = []) {
 // Create ./file-types if non-existing
 await mkdir('./file-types', { recursive: true });
 
+// Brief: Rank/Score MIME-type the same way https://github.com/jshttp/mime-types does
+// Note: To understand the scoring logic, see comments in ./mimeScore.js within mime-types@v3.0.1
+// Ref: https://github.com/jshttp/mime-types/blob/v3.0.1/mimeScore.js
+async function getMimeScore(mimeType) {
+  const { default: { source } } = await import(
+    `../mime-types/${mimeType}/data.json`,
+    { with: { type: 'json' } }
+  );
+  return mimeScore(mimeType, source);
+}
+
 // Brief: Similar to saveMimeData() but for extensions. Saved inside ./extensions
 async function saveExtData () {
-  // Open ./file-types as a stream to read its entries, i.e. files, instead of readdir() from node:fs
-  // readdir() would return an array of all files, which is memory consuming for large number of files
+  // Open ./file-types as a stream to read its entries, i.e. files, instead of using readdir() from node:fs
+  // Because readdir() would return an array of all files, which is memory consuming for large number of files
   const dir = await opendir('./file-types');
   for await (const dirent of dir) {
     const file = dirent.name;
     const extension = file.substring('type.'.length);
     const subdir = `./extensions/${extension}`;
-    const [mimeTypes] = await Promise.all([
+    const [ mimeTypes ] = await Promise.all([
       readFile(`./file-types/${file}`, { encoding: 'utf8' })
         .then((contents) => contents.split('\n').slice(0, -1)),
       mkdir(subdir, { recursive: true })
     ]);
+
+    // Accumulate the sources for each element of `mimeTypes` in an object
+    const score = {};
+    for (const type of mimeTypes) {
+      score[type] = await getMimeScore(type);
+    }
+
+    // Sort `mimeTypes` based on the scoring system detailed in
+    //   https://github.com/jshttp/mime-types/blob/v3.0.1/mimeScore.js
+    mimeTypes.sort((typeA, typeB) => {
+      return score[typeB] - score[typeA]; // A comes before B if A's score > B's
+    });
+
+    // Save the produced data in the database
     await writeFile(`${subdir}/data.json`, JSON.stringify({ mimeTypes }));
   }
 }
