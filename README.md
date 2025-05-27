@@ -10,7 +10,7 @@
 
 🚀 Additionally includes `file-extension => MIME-type(s)` reverse lookup data, with the MIME-types [sorted in descending order of importance](https://github.com/jshttp/mime-types/issues/116).
 
-🚀 Also offers a portable JavaScript [SDK](#javascript-sdk) to access the database through [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)s, providing memory-efficiency for both browsers and server-side runtimes.
+🚀 Also offers a portable JavaScript [SDK](#javascript-sdk) (ESM) to access the database through [dynamic import](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/import)s, providing memory-efficiency for both browsers and server-side runtimes.
 
 ## Motivation
 [mime-db](https://github.com/jshttp/mime-db) packages the entire MIME-types database into a [JSON file](https://github.com/jshttp/mime-db/blob/v1.54.0/db.json). Using `mime-db` directly, therefore, entails downloading the entire database at once, albeit from a CDN. If you just need to query a handful of MIME-types or file-extensions, downloading the entire database followed by loading and retaining it in memory would be an overkill. This problem persists with popular packages based on `mime-db`, such as [mime](https://www.npmjs.com/package/mime) or [mime-types](https://www.npmjs.com/package/mime-types), which, in order to function, must first store the entire database locally on the user's machine.
@@ -129,7 +129,7 @@ For browsers, this means more requests to the [CDNs](#usage) in return for low m
 
 For server-side runtimes like Node, dynamically importing tiny JSONs avoids complexities of [reading and parsing a huge JSON database using streams](https://www.npmjs.com/package/stream-json).
 
-### Install / Import
+### Install and Import
 For browsers:
 ```html
 <script type="module">

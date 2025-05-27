@@ -36,7 +36,7 @@
     "semver": "scripts/get-version.sh",
     "test": "node test.js"
   },
-  "version": "4.0.0",
+  "version": "4.0.1",
   "files": [
     "README.md",
     "LICENSE",
