@@ -39,33 +39,29 @@ jobs:
         run: npm ci # Clean, frozen install. Doesn't modify package.json or package-lock.json
       - name: Add scripts directory to system path
         run: echo "${PWD}/scripts" >> "${GITHUB_PATH}"
-      - name: Fetch latest mime-db release from GitHub
-        id: release
-        run: echo "MIMEDB_RELEASE=$(latest-version-github.js jshttp/mime-db)" >> "${GITHUB_OUTPUT}"
+      - name: Fetch latest mime-db release from GitHub and build our own release version
+        run: |
+          MIMEDB_RELEASE="$(latest-version-github.js jshttp/mime-db)"
+          echo "MIMEDB_RELEASE=${MIMEDB_RELEASE}" >> "${GITHUB_ENV}"
+          # Get current version from package.json and augment with the current mime-db release
+          RELEASE="$(get-version.sh)-${MIMEDB_RELEASE}"
+          echo "RELEASE=${RELEASE}" >> "${GITHUB_ENV}"
       - name: Check if up-to-date. Fail, if not.
         id: up-to-date
         continue-on-error: true
-        run: |
-          # Get current version from package.json and augment with the current mime-db release
-          release="$(get-version.sh)-${{ steps.release.outputs.MIMEDB_RELEASE }}"
-          # Check if we have already pushed/released that version yet
-          git ls-remote --tags --exit-code origin "${release}"
+        run: git ls-remote --tags --exit-code origin "${RELEASE}"
       - name: Fetch and build DB
         id: build-db
         if: steps.up-to-date.outcome == 'failure'
-        run: npm run build ${{ steps.release.outputs.MIMEDB_RELEASE }}
+        run: npm run build "${MIMEDB_RELEASE}"
       - name: Commit the build
         if: steps.build-db.outcome == 'success'
-        env:
-          MIMEDB_RELEASE: ${{ steps.release.outputs.MIMEDB_RELEASE }}
         run: |
-          # Get current version from package.json and augment with the current mime-db release
-          release="$(get-version.sh)-${MIMEDB_RELEASE}"
-          set-version.sh "${release}" # Update package.json with the augmented version
+          set-version.sh "${RELEASE}" # Update package.json with the augmented version
           git config --global user.name ${{ github.triggering_actor }}
           git config --global user.email '73181168+SomajitDey@users.noreply.github.com'
           git checkout --orphan=database
           git add .
-          git commit -m "(v${release}) Automated commit by GitHub workflow"
-          git tag "${release}"
+          git commit -m "(v${RELEASE}) Automated commit by GitHub workflow"
+          git tag "${RELEASE}"
           git push --force --tags origin database
